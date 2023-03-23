@@ -1,34 +1,43 @@
 import './App.css';
 import DiaryEditor from "./DiaryEditor";
-import {useState} from "react";
+import DiaryList from "./DiaryList";
+
+const diaryList = [
+    {
+        id: 1,
+        author: "용성",
+        content: "하이 1",
+        emotion: 5,
+        created_date: new Date().getTime(),
+    },
+    {
+        id: 2,
+        author: "영준",
+        content: "안녕 2",
+        emotion: 2,
+        created_date: new Date().getTime(),
+    },
+    {
+        id: 3,
+        author: "정일",
+        content: "잘자",
+        emotion: 3,
+        created_date: new Date().getTime(),
+    },
+    {
+        id: 4,
+        author: "영빈",
+        content: "좋은아침",
+        emotion: 4,
+        created_date: new Date().getTime(),
+    },
+];
 
 function App() {
-    const [state, setState]=useState({
-        author: "",
-        contnet: "",
-    });
     return (
         <div className="App">
-            <h2>오 늘 의 일 기</h2>
             <DiaryEditor/>
-            <div>
-                <input
-                    name="author"
-                    value={state.author}
-                    onChange={(e) => {
-                        setAuthor({
-                            author: e.target.value,
-                            content: state.contnet
-                        });
-                    }}/>
-            </div>
-            <div>
-        <textarea
-            value={state.content}
-            onChange={(e) => {
-                setContent(e.target.value);
-            }}/>
-            </div>
+            <DiaryList diaryList={diaryList}/>
         </div>
     );
 }
