@@ -1,12 +1,12 @@
 import {useRef, useState} from "react";
 
-const DiaryEditor = () => {
+const DiaryEditor = ({onCreate}) => {
     const authorInputRef = useRef(null);
     const contentInputRef = useRef(null);
 
     const [state, setState] = useState({
         author: "",
-        contnet: "",
+        content: "",
         emotion: 1,
     });
 
@@ -23,13 +23,20 @@ const DiaryEditor = () => {
             return;
         }
 
-        if (state.contnet.length < 5){
+        if (state.content.length < 5){
             contentInputRef.current.focus();
             return;
         }
 
+        onCreate(state.author, state.content, state.emotion);
+
         console.log(state);
         alert("저장 성공.")
+        setState({
+            author: "",
+            content: "",
+            emotion: 1,
+        });
     }
     return (
         <div className={"DiaryEditor"}>
