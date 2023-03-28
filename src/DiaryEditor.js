@@ -1,6 +1,9 @@
-import {useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
+import {DiaryDispatchContext} from "./App";
 
-const DiaryEditor = ({onCreate}) => {
+const DiaryEditor = () => {
+    const {onCreate} = useContext(DiaryDispatchContext);
+
     const authorInputRef = useRef(null);
     const contentInputRef = useRef(null);
 
@@ -18,19 +21,18 @@ const DiaryEditor = ({onCreate}) => {
     }
 
     const handleSubmit = () => {
-        if (state.author.length < 1){
+        if (state.author.length < 1) {
             authorInputRef.current.focus();
             return;
         }
 
-        if (state.content.length < 5){
+        if (state.content.length < 5) {
             contentInputRef.current.focus();
             return;
         }
 
         onCreate(state.author, state.content, state.emotion);
 
-        console.log(state);
         alert("저장 성공.")
         setState({
             author: "",
@@ -76,6 +78,6 @@ const DiaryEditor = ({onCreate}) => {
             </div>
         </div>
     )
-}
+};
 
-export default DiaryEditor;
+export default React.memo(DiaryEditor);

@@ -1,21 +1,21 @@
-import {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
+import {DiaryDispatchContext} from "./App";
 
 const DiaryItem = ({
-                       onEdit,
-                       onRemove,
                        id,
                        author,
                        content,
                        emotion,
                        created_date
                    }) => {
+    const {onEdit, onRemove} = useContext(DiaryDispatchContext);
+
     const [isEdit, setIsEdit] = useState(false);
-    const [localContent, setLocalContent]=useState(content);
+    const [localContent, setLocalContent] = useState(content);
     const localContentInput = useRef();
 
     const toggleIsEdit = () => setIsEdit(!isEdit);
     const handleRemove = () => {
-        console.log(id);
         if (window.confirm(`아이디:${id}의 일기를 정말 삭제하시겠습니까?`)) {
             onRemove(id);
         }
@@ -24,12 +24,12 @@ const DiaryItem = ({
         setIsEdit(false);
         setLocalContent(content);
     };
-    const handleEdit = () =>{
-        if(localContent.length < 5) {
+    const handleEdit = () => {
+        if (localContent.length < 5) {
             localContentInput.current.focus();
             return;
         }
-        if(window.confirm(`아이디:${id}의 일기를 정말로 수정하시겠습니까?`)){
+        if (window.confirm(`아이디:${id}의 일기를 정말로 수정하시겠습니까?`)) {
             onEdit(id, localContent);
             toggleIsEdit();
         }
@@ -53,7 +53,7 @@ const DiaryItem = ({
                             onChange={e => setLocalContent(e.target.value)}
                         />
                     </>
-                ):(
+                ) : (
                     <>
                         {content}
                     </>
@@ -66,13 +66,13 @@ const DiaryItem = ({
                 </>
             ) : (
                 <>
-                    <button onClick={toggleIsEdit}>수정</button>
                     <button onClick={handleRemove}>삭제</button>
+                    <button onClick={toggleIsEdit}>수정</button>
                 </>
-                    )}
+            )}
 
         </div>
     );
 };
 
-export default DiaryItem;
+export default React.memo(DiaryItem);
