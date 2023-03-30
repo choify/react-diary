@@ -9,10 +9,10 @@ const DiaryItem = ({id, emotion, content, date}) => {
 
     const strDate = new Date(parseInt(date)).toLocaleDateString();
 
-    const goDetail = () =>{
+    const goDetail = () => {
         navigate(`/diary/${id}`);
     };
-    const goEdit=()=>{
+    const goEdit = () => {
         navigate(`/edit/${id}`);
     };
 
@@ -32,7 +32,7 @@ const DiaryItem = ({id, emotion, content, date}) => {
                 <div className="diary_content_preview">{content.slice(0, 25)}</div>
             </div>
             <div onClick={goEdit} className="btn_wrapper">
-                <MyButton text={"수정하기"} />
+                <MyButton text={"수정하기"}/>
             </div>
         </div>
     );
