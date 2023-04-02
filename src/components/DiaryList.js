@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import MyButton from "./MyButton";
 import {useNavigate} from "react-router-dom";
 import DiaryItem from "./DiaryItem";
@@ -15,7 +15,7 @@ const filterOptionList = [
     {value:"notBad",name:"보통 감정만"},
 ];
 
-const ControlMenu = ({value, onChange, optionList}) => {
+const ControlMenu = React.memo(({value, onChange, optionList}) => {
     return (
         <select
             className="ControlMenu"
@@ -32,7 +32,7 @@ const ControlMenu = ({value, onChange, optionList}) => {
             )}
         </select>
     );
-};
+});
 
 const DiaryList = ({diaryList}) => {
     const navigate = useNavigate();
@@ -40,7 +40,6 @@ const DiaryList = ({diaryList}) => {
     const [filter, setFilter]=useState("all");
 
     const getProcessedDiaryList = () => {
-
         const filterCallBack=(item)=>{
             if(filter==='notBad'){
                 return parseInt(item.emotion) === 3;
