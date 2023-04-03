@@ -1,16 +1,12 @@
-import React, {useEffect} from "react";
+import React from "react";
 import MyButton from "./MyButton";
 import {useNavigate} from "react-router-dom";
 
 const DiaryItem = ({id, emotion, content, date}) => {
-    useEffect(()=>{
-        console.log("렌더링");
-    });
-
     const navigate = useNavigate();
+
     const env = process.env;
     env.PUBLIC_URL = env.PUBLIC_URL || "";
-    const img_url = process.env.PUBLIC_URL + `assets/emotion${emotion}.png`
 
     const strDate = new Date(parseInt(date)).toLocaleDateString();
 
@@ -30,7 +26,7 @@ const DiaryItem = ({id, emotion, content, date}) => {
                     `emotion_img_wrapper_${emotion}`
                 ].join(" ")}
             >
-                <img src={img_url} alt={emotion}/>
+                <img src={process.env.PUBLIC_URL + `assets/emotion${emotion}.png`} alt={emotion}/>
             </div>
             <div onClick={goDetail} className="info_wrapper">
                 <div className="diary_date">{strDate}</div>

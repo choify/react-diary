@@ -1,4 +1,4 @@
-import {useContext, useEffect, useRef, useState} from "react";
+import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import MyHeader from "./MyHeader";
 import MyButton from "./MyButton";
@@ -12,11 +12,12 @@ const DiaryEditor = ({isEdit, originData}) => {
     const [content, setContent] = useState("");
     const [emotion, setEmotion] = useState(3);
     const [date, setDate] = useState(getStringDate(new Date()));
-    const navigate = useNavigate();
-    const {onRemove,onCreate,onEdit} = useContext(DiaryDispatchContext);
-    const handleClickEmotion = (emotion) => {
+
+    const {onRemove, onCreate, onEdit} = useContext(DiaryDispatchContext);
+    const handleClickEmotion = useCallback((emotion) => {
         setEmotion(emotion);
-    };
+    }, []);
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
         if (content.length < 1) {
@@ -24,11 +25,10 @@ const DiaryEditor = ({isEdit, originData}) => {
             return;
         }
 
-        if(window.confirm(isEdit?"일기를 수정하시겠습니까?":"새로운 일기를 작성하시곘습니까?")){
-            if(!isEdit){
-                onCreate(date,content,emotion);
-
-            }else{
+        if (window.confirm(isEdit ? "일기를 수정하시겠습니까?" : "새로운 일기를 작성하시곘습니까?")) {
+            if (!isEdit) {
+                onCreate(date, content, emotion);
+            } else {
                 onEdit(originData.id, date, content, emotion);
             }
         }
@@ -36,20 +36,21 @@ const DiaryEditor = ({isEdit, originData}) => {
         navigate("/", {replace: true});
     };
 
-    const handleRemove= ()=>{
-      if(window.confirm("정말 삭제하시겠습니까?")){
-          onRemove(originData.id);
-          navigate("/",{replace:true});
-      }
+    const handleRemove = () => {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+            onRemove(originData.id);
+            navigate("/", {replace: true});
+        }
     };
 
-    useEffect(()=>{
-        if(isEdit){
+    useEffect(() => {
+        if (isEdit) {
             setDate(getStringDate(new Date(parseInt(originData.date))));
             setEmotion(originData.emotion);
             setContent(originData.content);
         }
-    },[isEdit,originData])
+    }, [isEdit, originData])
+
     return (
         <div className={"DiaryEditor"}>
             <MyHeader
